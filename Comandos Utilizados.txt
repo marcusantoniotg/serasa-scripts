@@ -1,0 +1,51 @@
+#iniciar as docker que estão parados e parar-los
+sudo docker start $(sudo docker container ps -a -q)
+sudo docker stop $(sudo docker container ps -a -q)
+ 
+link acesso kafka= http://52.226.20.9:9021/clusters/iiBwn3veSauyKvhiLZspiQ/overview
+#acesso pelo moba
+azureuser@52.226.20.9
+Xa1234@54?2
+
+#comandos Kafka
+#remove topic
+docker exec --tty broker kafka-topics --bootstrap-server broker:9092 --delete --topic topic_new_york_taxis
+
+#Cria topico new_york_taxis
+docker exec broker kafka-topics --bootstrap-server broker:9092 --create --topic topic_new_york_taxis
+
+#escreve msg de testes
+docker exec --interactive --tty broker kafka-console-producer --bootstrap-server broker:9092 --topic topic_new_york_taxis
+
+#le mensagens do topic
+docker exec --interactive --tty broker kafka-console-consumer --bootstrap-server broker:9092 --topic topic_new_york_taxis --from-beginning
+
+#senha do airflow
+link http://13.90.96.10:8080/home
+User: airflow
+Password: airflow
+
+#acesso pelo moba 
+azureuser@13.90.96.10
+Xa1234@54?2
+
+#aceso ao terminal para instalar lib python e spark
+sudo docker exec -it e7c634426f9f /bin/bash
+
+#download spark no airflow 
+# No terminal da máquina Airflow (ou no container Docker, caso esteja usando Docker)
+sudo apt update
+sudo apt install wget
+wget https://archive.apache.org/dist/spark/spark-3.4.0/spark-3.4.0-bin-hadoop3.tgz
+tar -xvf spark-3.4.0-bin-hadoop3.tgz
+sudo mv spark-3.4.0-bin-hadoop3 /opt/spark
+# Adicione as seguintes linhas ao seu arquivo ~/.bashrc ou ~/.profile ou /etc/environment para que o Spark seja encontrado
+export SPARK_HOME=/opt/spark
+export PATH=$SPARK_HOME/bin:$PATH
+
+# Carregar as variáveis de ambiente
+source ~/.bashrc
+spark-submit --version
+
+#comando para executar spark local
+spark-submit   --class ConsumeMsgConvetToParquet   --master local[*]   --executor-memory 4g   --total-executor-cores 2   --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0   /usr/local/airflow/scripts/serasa/scala/stream-taxi-data-consumer_2.12-1.0.0-SNAPSHOT.jar

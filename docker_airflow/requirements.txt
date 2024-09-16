@@ -1,0 +1,13 @@
+azure-storage-blob
+pytz
+faker
+requests
+pandas
+pyspark
+kafka-python
+ksql
+kaggle
+confluent-kafka
+apache-airflow-providers-apache-spark
+azure-storage-blob
+kaggle
